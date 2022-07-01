@@ -1,34 +1,66 @@
-import React, {Children, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 function App() {
-  const [hpData, setHPData] = useState()
+  const [hpData, setHPData] = useState([])
+  const [gameData, setGameData] = useState([])
   const[score, setScore] = useState(0)
 
-
   useEffect(() => {
-    async function callHPAPI(){
-      const response = await fetch("http://hp-api.herokuapp.com/api/characters")
-
-      if (!response.ok) {
-        const message = `An error has occured: ${response.status}`;
-        console.log(message)
-      }
-      const characters = await response.json();
-      let charArray = Array.from(characters)
-      let useTheseChars = [
-        charArray[0], charArray[1], charArray[2], charArray[3], charArray[4], charArray[16], 
-        charArray[7], charArray[8], charArray[9], charArray[10], charArray[11]
-        ]
-      setHPData(useTheseChars)
-    
-    }
     callHPAPI()
+  }, [])
+
+  useEffect(()=> {
+    if(hpData){
+      shuffleArray(hpData)
+    }
   }, [hpData])
+
+  async function callHPAPI(){
+    const response = await fetch("http://hp-api.herokuapp.com/api/characters")
+
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status}`;
+      console.log(message)
+    }
+    const characters = await response.json();
+    let charArray = Array.from(characters)
+    let useTheseChars = [
+      charArray[0], charArray[1], charArray[2], charArray[3], charArray[4], charArray[16], 
+      charArray[7], charArray[8], charArray[9], charArray[10], charArray[11], charArray[12]
+      ]
+      setHPData(useTheseChars)  
+  }
+
+  function shuffleArray(array) {
+    let newArr = [...array]
+    for (let i = newArr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+    }
+    setGameData(newArr)
+}
+
+  function handleClick(e){
+    // console.log("ran")
+    let clicked = e.target.dataset.name
+    for(let i = 0; i > hpData.length; i++){
+      let count = 0
+      if(hpData[i].chosen){
+       count = count++
+      }
+    }
+   
+  
+  
+    
+    
+    
+  }
 
   return (
    <>
    <Header  Scoreboard={<Scoreboard score={score} />}/>
-   <Gameboard data={hpData} Cards={Cards}/>
+   <Gameboard data={gameData} handleClick={handleClick} Cards={<Cards/>}/>
    </>
   );
 }
@@ -48,24 +80,27 @@ function Scoreboard({score}){
     </div>
   )
 }
-function Gameboard(data, {Cards}){
-  console.log(data)
-  const gameElements = data.map(item => <Cards path={item.image} name={item.name} />)
+function Gameboard(props){
+  const gameElements = props.data.map((item,index) => <Cards key={index} handleClick={props.handleClick} path={item.image} name={item.name} />)
   return (
-    <div>
+    <div className='gameboard'>
       {gameElements}
     </div>
   )
 }
-function Cards(path, name) {
+function Cards(props) {
+  const {handleClick, name , path} = props
   return(
-    <div className='card'>
-      <img alt="" src={path}></img>
-      <p>{name}</p>
-    </div>
+      <div className='card'>
+        <div className='card-img'>
+          <img onClick={(e)=> handleClick(e)} alt="" src={path} data-name={name} className="game-img"></img>
+        </div>
+        <div className='card-name'>
+          <p className='centered'>{name}</p>
+        </div>
+      </div>
   )
 }
 export default App;
 
 
-// return <ComponentOne ComponentTwo={<ComponentTwo data={data} />} />;
