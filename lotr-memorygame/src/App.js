@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react'
 
 function App() {
   const [hpData, setHPData] = useState([])
+
+  const [resetData, setResetData] = useState([])
+
   const [gameData, setGameData] = useState([])
   const[score, setScore] = useState(0)
 
@@ -15,7 +18,12 @@ function App() {
     }
   }, [hpData])
 
+  useEffect(() => {
+    console.log(resetData)
+  }, [resetData])
+
   async function callHPAPI(){
+    console.log("api called")
     const response = await fetch("http://hp-api.herokuapp.com/api/characters")
 
     if (!response.ok) {
@@ -28,7 +36,11 @@ function App() {
       charArray[0], charArray[1], charArray[2], charArray[3], charArray[4], charArray[16], 
       charArray[7], charArray[8], charArray[9], charArray[10], charArray[11], charArray[12]
       ]
-      setHPData(useTheseChars)  
+
+     
+      setResetData()
+      
+      setHPData()  
   }
 
   function shuffleArray(array) {
@@ -41,21 +53,30 @@ function App() {
 }
 
   function handleClick(e){
-    // console.log("ran")
+
     let clicked = e.target.dataset.name
-    for(let i = 0; i > hpData.length; i++){
-      let count = 0
-      if(hpData[i].chosen){
-       count = count++
-      }
+    let tempArray = [...hpData]
+    let filteredItem = tempArray.filter(item => item.name === clicked)  
+    if(filteredItem[0].chosen === true ){
+      handleItemHasChosen()
+    } else {
+      handleItemNotChosen()
+      let itemToUpdate = filteredItem[0].chosen = true
+      let finishedArray = tempArray.map(item => item.name === itemToUpdate.name ? itemToUpdate : item )
+      setHPData(finishedArray)
     }
+   }
+
+   function handleItemHasChosen(){
+    console.log("reset score here")
+    setScore(prevScore => prevScore = 0)
    
-  
-  
+   }
+   function handleItemNotChosen(){
+    console.log("increment score here")
+    setScore(prevScore => prevScore + 1)
+   }
     
-    
-    
-  }
 
   return (
    <>
