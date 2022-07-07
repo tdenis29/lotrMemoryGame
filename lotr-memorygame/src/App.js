@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 
 function App() {
+  console.log("App rendered")
   const [hpData, setHPData] = useState([])
-
-  const [resetData, setResetData] = useState([])
 
   const [gameData, setGameData] = useState([])
   const[score, setScore] = useState(0)
@@ -18,15 +17,11 @@ function App() {
     }
   }, [hpData])
 
-  useEffect(() => {
-    console.log(resetData)
-  }, [resetData])
-
   async function callHPAPI(){
     console.log("api called")
     const response = await fetch("http://hp-api.herokuapp.com/api/characters")
 
-    if (!response.ok) {
+    if (!response === 200) {
       const message = `An error has occured: ${response.status}`;
       console.log(message)
     }
@@ -36,11 +31,8 @@ function App() {
       charArray[0], charArray[1], charArray[2], charArray[3], charArray[4], charArray[16], 
       charArray[7], charArray[8], charArray[9], charArray[10], charArray[11], charArray[12]
       ]
-
-     
-      setResetData()
-      
-      setHPData()  
+      useTheseChars.forEach(item => item.chosen = false)
+      setHPData(useTheseChars)  
   }
 
   function shuffleArray(array) {
@@ -70,7 +62,12 @@ function App() {
    function handleItemHasChosen(){
     console.log("reset score here")
     setScore(prevScore => prevScore = 0)
-   
+    setHPData(prevData => prevData.map(item => {
+      return {
+        ...item,
+        chosen : false,
+      }
+    }))
    }
    function handleItemNotChosen(){
     console.log("increment score here")
@@ -86,6 +83,7 @@ function App() {
   );
 }
 function Header ({Scoreboard}) {
+  console.log("header rendered")
   return (
     <header>
       <h1>Harry Potter Memory Game</h1>
