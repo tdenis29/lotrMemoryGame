@@ -19,7 +19,7 @@ function App() {
 
   async function callHPAPI(){
     console.log("api called")
-    const response = await fetch("http://hp-api.herokuapp.com/api/characters")
+    const response = await fetch("https://hp-api.herokuapp.com/api/characters")
 
     if (!response === 200) {
       const message = `An error has occured: ${response.status}`;
