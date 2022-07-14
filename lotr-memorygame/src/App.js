@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 
 function App() {
-  console.log("App rendered")
+  
   const [hpData, setHPData] = useState([])
-
   const [gameData, setGameData] = useState([])
   const[score, setScore] = useState(0)
+  
 
   useEffect(() => {
     callHPAPI()
@@ -45,7 +45,6 @@ function App() {
 }
 
   function handleClick(e){
-
     let clicked = e.target.dataset.name
     let tempArray = [...hpData]
     let filteredItem = tempArray.filter(item => item.name === clicked)  
@@ -60,7 +59,7 @@ function App() {
    }
 
    function handleItemHasChosen(){
-    console.log("reset score here")
+    // console.log("reset score here")
     setScore(prevScore => prevScore = 0)
     setHPData(prevData => prevData.map(item => {
       return {
@@ -70,7 +69,7 @@ function App() {
     }))
    }
    function handleItemNotChosen(){
-    console.log("increment score here")
+    // console.log("increment score here")
     setScore(prevScore => prevScore + 1)
    }
     
@@ -83,7 +82,7 @@ function App() {
   );
 }
 function Header ({Scoreboard}) {
-  console.log("header rendered")
+  // console.log("header rendered")
   return (
     <header>
       <h1>Harry Potter Memory Game</h1>
@@ -93,9 +92,15 @@ function Header ({Scoreboard}) {
 }
 
 function Scoreboard({score}){
+  const [bestScore, setBestScore] = useState(0)
+
+  if(score > bestScore){
+    setBestScore(prevBest => prevBest = score)
+  } 
   return (
     <div>
-      <p>{score}</p>
+      <p>Current Score : {score}</p>
+      <p>Best Score : {bestScore}</p>
     </div>
   )
 }

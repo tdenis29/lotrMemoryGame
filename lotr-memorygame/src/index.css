@@ -1,10 +1,24 @@
+@font-face {
+  font-family: 'ParryHotter';
+  src: local('ParryHotter'), url(./font/ParryHotter.ttf) format('truetype');
+}
 
 *{
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   list-style-type: none;
+  font-family: 'ParryHotter';
 }
+
+
+header{
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 5.5rem 1.5rem 5.5rem;
+
+}
+
 .gameboard{
   display: grid;
   justify-content: center;
@@ -12,12 +26,14 @@
   max-width: 100%;
   margin: 0 auto;
   grid-template-columns: repeat(auto-fit, minmax(100px, 300px));
-  grid-gap: .5rem;
+  grid-gap: 1rem;
+  
 }
 .card{
   position: relative;
   text-align: center;
   color: white;
+  padding: 0rem .3rem 0
 }
 .centered{
   position: absolute;
@@ -25,6 +41,7 @@
   left: 35%;
   background-color: black;
   transform: translate(-50%, -50%);
+  font-size: 1.2rem;
 }
 .game-img {
   float: left;
