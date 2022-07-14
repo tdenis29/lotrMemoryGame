@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/lotrMemoryGame/static/css/main.9f4dd296.css",
+    "main.js": "/lotrMemoryGame/static/js/main.cbb4e3ea.js",
+    "static/media/ParryHotter.ttf": "/lotrMemoryGame/static/media/ParryHotter.8d2655a0b53cb1d4acca.ttf",
+    "index.html": "/lotrMemoryGame/index.html",
+    "main.9f4dd296.css.map": "/lotrMemoryGame/static/css/main.9f4dd296.css.map",
+    "main.cbb4e3ea.js.map": "/lotrMemoryGame/static/js/main.cbb4e3ea.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9f4dd296.css",
+    "static/js/main.cbb4e3ea.js"
+  ]
+}
